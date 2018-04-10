@@ -4,7 +4,7 @@
  * 
  */
 
-import Element from "./../MiSwDOM/MiSwDOM.js";
+import * as MiSwDOM from "./../MiSwDOM/MiSwDOM.js";
 
 class SemanticUI extends Element {
 	constructor(type) {
@@ -12,7 +12,7 @@ class SemanticUI extends Element {
 	}
 	/* Add a text element */
 	addText(text) {
-		this.add(new Element("text", text));
+		this.add(new MiSwDOM.Element("text", text));
 		return this;
 	}
 	top() {
@@ -264,7 +264,7 @@ export class Image extends SemanticUI {
 export class SVGImage extends SemanticUI {
 	constructor(src) {
 		super(svg);
-		this.add(this._img = new Element("img")
+		this.add(this._img = new MiSwDOM.Element("img")
 			.attribute({"xmlns:xlink":"http://www.w3.org/1999/xlink"})
 			.attribute({"xmlns:href":src})
 		);
@@ -286,7 +286,7 @@ export class Input extends SemanticUI {
 		super("div");
 
 		this.addClass("ui input")
-			.add(this._input = new Element("input")
+			.add(this._input = new MiSwDOM.Element("input")
 				.attribute({type: type, placeholder: placeholder})
 				);
 		
@@ -359,24 +359,24 @@ export class NumericField extends SemanticUI {
 	constructor(optionalText, units, unitChangeFun) {
 		super("div");
 
-		this._dropdown = new Element("div")
+		this._dropdown = new MiSwDOM.Element("div")
 		.addClass("ui dropdown label")
 		;
-		var text = new Element("div")
+		var text = new MiSwDOM.Element("div")
 		.addClass("text")
-		.add(new Element("text", units[0]))
+		.add(new MiSwDOM.Element("text", units[0]))
 		;
 		var icon = new Icon("dropdown");
 
-		var menu = new Element("div").addClass("menu");
+		var menu = new MiSwDOM.Element("div").addClass("menu");
 		units.forEach(function (unit) {
-			menu.add(new Element("div")
+			menu.add(new MiSwDOM.Element("div")
 			.addClass("item")
-			.add(new Element("text", unit))
+			.add(new MiSwDOM.Element("text", unit))
 			);
 		}, this);
 
-		this._input = new Element("input")
+		this._input = new MiSwDOM.Element("input")
 		.attribute({type: "number", placeholder: optionalText});
 
 		this
@@ -436,7 +436,7 @@ export class SearchField extends SemanticUI {
 	constructor(optionalText) {
 		super("div");
 
-		this._input = new Element("input")
+		this._input = new MiSwDOM.Element("input")
 		.attribute({type: "text", placeholder: optionalText})
 		.addClass("prompt")
 		;
@@ -445,11 +445,11 @@ export class SearchField extends SemanticUI {
 
 		this
 		.addClass("ui search")
-		.add(new Element("div").addClass("ui icon input")
+		.add(new MiSwDOM.Element("div").addClass("ui icon input")
 				.add(this._input)
 				.add(icon)
 		)
-		.add(new Element("div").addClass("result"))
+		.add(new MiSwDOM.Element("div").addClass("result"))
 		;
 	}
 	readValue() {
@@ -651,26 +651,26 @@ export class DropDown extends SemanticUI {
 		.addClass("ui selection dropdown")
 		;
 
-		new Element("input").attribute({type: "hidden"}).attachTo(this);
+		new MiSwDOM.Element("input").attribute({type: "hidden"}).attachTo(this);
 		if (icon)
 			icon.attachTo(this);
 
 		if (text) {
-			new Element("div")
+			new MiSwDOM.Element("div")
 			.addClass("default text")
-			.add(new Element("text", text))
+			.add(new MiSwDOM.Element("text", text))
 			.attachTo(this)
 			;
 		}
 
-		var menu = new Element("div").addClass("menu").attachTo(this);
+		var menu = new MiSwDOM.Element("div").addClass("menu").attachTo(this);
 
 
 		values.forEach(function (v) {
-			new Element("div")
+			new MiSwDOM.Element("div")
 			.addClass("item")
 			.dataset({value: v.value})
-			.addChildren([new Element("text", v.name)])
+			.addChildren([new MiSwDOM.Element("text", v.name)])
 			.attachTo(menu)
 			;
 		}, this);
@@ -704,10 +704,10 @@ export class DDButton extends SemanticUI {
 		this.items_ = []; /* The items in the dropdown */
 
 		this.addClass("ui").addClass(color).addClass("buttons");
-		this.add(new Element("div").addClass("ui button").add(new Element("text", buttonText)));
-		this.add(this.dropdown_ = new Element("div").addClass("ui floating dropdown icon button")
+		this.add(new MiSwDOM.Element("div").addClass("ui button").add(new MiSwDOM.Element("text", buttonText)));
+		this.add(this.dropdown_ = new MiSwDOM.Element("div").addClass("ui floating dropdown icon button")
 				.add(new Icon("dropdown"))
-				.add(this.menu_ = new Element("div").addClass("menu")));
+				.add(this.menu_ = new MiSwDOM.Element("div").addClass("menu")));
 
 		var this_ = this;
 		$(this.dropdown_.dom()).dropdown({
@@ -719,14 +719,14 @@ export class DDButton extends SemanticUI {
 	}
 	addMenuItem(menuText, dataValue, initialState = "") {
 		var item;
-		this.menu_.add(item = new Element("div").addClass("item").dataset({value: dataValue}).addClass(initialState).add(new Element("text", menuText)));
+		this.menu_.add(item = new MiSwDOM.Element("div").addClass("item").dataset({value: dataValue}).addClass(initialState).add(new MiSwDOM.Element("text", menuText)));
 		this.items_.push(item);
 
 		return this;
 	}
 	addmenuItemWithIcon(icon, menuText, dataValue, initialState = "") {
 		var item;
-		this.menu_.add(item = new Element("div").addClass("item").dataset({value: dataValue}).addClass(initialState).add(new Icon(icon)).add(new Element("text", menuText)));
+		this.menu_.add(item = new MiSwDOM.Element("div").addClass("item").dataset({value: dataValue}).addClass(initialState).add(new Icon(icon)).add(new MiSwDOM.Element("text", menuText)));
 		this.items_.push(item);
 
 		return this;
@@ -756,7 +756,7 @@ export class MultiSelect extends SemanticUI {
 	constructor(buttonText, color = "", callback) {
 		super("div");
 		this
-		.add(this.select_ = new Element("select")
+		.add(this.select_ = new MiSwDOM.Element("select")
 		.addClass("ui fluid search dropdown")
 		.attribute({multiple: "x"})
 		)
@@ -774,9 +774,9 @@ export class MultiSelect extends SemanticUI {
 	}
 	addMenuItem(menuText, dataValue) {
 		this.select_.add(
-				new Element("option")
+				new MiSwDOM.Element("option")
 				.attribute({value: dataValue})
-				.add(new Element("text", menuText))
+				.add(new MiSwDOM.Element("text", menuText))
 		);
 
 		return this;
@@ -789,10 +789,10 @@ export class Select extends SemanticUI {
 		this.items_ = []; /* The items in the dropdown */
 		this
 		.addClass("ui selection dropdown")
-// .add(new Element("input").attribute({type:"hidden"}))
+// .add(new MiSwDOM.Element("input").attribute({type:"hidden"}))
 		.add(new Icon("dropdown"))
-		.add(new Element("text", buttonText)).addClass("default text")
-		.add(this.menu_ = new Element("div").addClass("menu"))
+		.add(new MiSwDOM.Element("text", buttonText)).addClass("default text")
+		.add(this.menu_ = new MiSwDOM.Element("div").addClass("menu"))
 		;
 
 		$(this.dom()).dropdown({
@@ -808,10 +808,10 @@ export class Select extends SemanticUI {
 // console.log({menuText, dataValue, initialState});
 		var item;
 		this.menu_.add(item =
-			new Element("div")
+			new MiSwDOM.Element("div")
 		.addClass("item").addClass(initialState)
 		.dataset({value: dataValue})
-		.add(new Element("text", menuText))
+		.add(new MiSwDOM.Element("text", menuText))
 		);
 		this.items_.push(item);
 
