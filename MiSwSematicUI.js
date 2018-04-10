@@ -4,21 +4,17 @@
  * 
  */
 
-import {Element} from "./../MiSwDOM/MiSwDOM.js";
+import Element from "./../MiSwDOM/MiSwDOM.js";
 
 class SemanticUI extends Element {
 	constructor(type) {
 		super(type);
 	}
 	/* Add a text element */
-	text(text) {
-		new Element("text", text).attachTo(this);
+	addText(text) {
+		this.add(new Element("text", text));
 		return this;
 	}
-// add(element) {
-// element.attachTo(this);
-// return this;
-// }
 	top() {
 		this.addClass("top");
 		return this;
@@ -163,18 +159,18 @@ class SemanticUI extends Element {
 
 
 /*
- * Buttons
+ * Buttons https://semantic-ui.com/elements/button.html
  */
 export class Button extends SemanticUI {
-	constructor(optionalText, callback) {
+	constructor(optionalText, optionalCallback) {
 		super("button");
 		this.addClass("ui button");
 		if (optionalText !== undefined)
 			this.text(optionalText);
 
-		if (callback) {
+		if(optionalCallback) {
 			this.dom().addEventListener("click", function () {
-				callback();
+				optionalCallback();
 			});
 		}
 	}
@@ -202,7 +198,7 @@ export class Button extends SemanticUI {
 
 
 /*
- * Icons
+ * Icons https://semantic-ui.com/elements/icon.html
  */
 export class IconGroup extends SemanticUI {
 	constructor(icons) {
@@ -251,7 +247,7 @@ export class Icon extends SemanticUI {
 }
 
 /*
- * Image
+ * Image https://semantic-ui.com/elements/image.html
  */
 
 export class Image extends SemanticUI {
@@ -281,26 +277,62 @@ export class SVGImage extends SemanticUI {
 }
 
 
+/*
+ * Text input https://semantic-ui.com/elements/input.html
+ */
 
-
-export class TextField extends SemanticUI {
-	constructor(optionalText) {
+export class Input extends SemanticUI {
+	constructor(type, placeholder, optionalCallback) {
 		super("div");
 
-		this._input = new Element("input")
-		.attribute({type: "text", placeholder: optionalText});
-
-		this
-		.addClass("ui input")
-		.add(this._input);
+		this.addClass("ui input")
+			.add(this._input = new Element("input")
+				.attribute({type: type, placeholder: placeholder})
+				);
+		
+		if(optionalCallback) {
+			function valueChanged() {
+				optionalCallback(this.readValue());
+			}
+			
+	        this._input.addEventListener("input", valueChanged);
+		    this._input.addEventListener("change", valueChanged);
+		}
 	}
-	icon(iconType) {
-		var icon = new Icon(iconType);
-		this
-		.addClass("icon")
-		.add(icon)
-		;
+	focus() {
+		this.addClass("focus");
 		return this;
+	}
+	error() {
+		this.addClass("error");
+		return this;
+	}
+	rightIcon(icon) {
+		this.addClas("icon").add(icon);
+		return this;
+	}
+	leftIcon(icon) {
+		this.addClas("left icon").insertChild(icon, this._input);
+		return this;
+	}
+	leftLabel(label) {
+		this.addClass("left labeled").insertChild(label, this._input);
+		return this;
+	}
+	rightLabel(label) {
+		this.addClass("right labeled").add(label);
+		return this;
+	}
+	leftAction(action) {
+		this.addClass("left action").insertChild(action, this._input);
+		return this;
+	}
+	rightAction(action) {
+		this.addClass("right action").add(action);
+		return this;
+	}
+	transparent() {
+		this.addClass("transparent");
 	}
 	readValue() {
 		return this._input.dom().value;
@@ -309,6 +341,18 @@ export class TextField extends SemanticUI {
 		this._input.dom().value = value;
 		return this;
 	}
+}
+
+export class TextInput extends Input {
+	constructor(placeholder,optionalCallback) {
+		super("text", placeholder,optionalCallback);
+	}
+}
+
+export class NumericInput extends Input {
+	constructor(placeholder,optionalCallback) {
+		super("number", placeholder,optionalCallback);
+	}	
 }
 
 export class NumericField extends SemanticUI {
@@ -418,13 +462,30 @@ export class SearchField extends SemanticUI {
 }
 
 
+/*
+ * Labels https://semantic-ui.com/elements/label.html
+ * 
+ * Example: new Label().add(new Icon("mail")).addText("23"); new
+ * Label().image().add(new Image("/images/avatar/small/joe.jpg")).addTex("Joe");
+ * 
+ */
 
 export class Label extends SemanticUI {
-	constructor(optionalText) {
+	constructor() {
 		super("div");
-		this.addClass("ui label basic");
-		if (optionalText !== undefined)
-			this.text(optionalText);
+		this.addClass("ui label");
+	}
+	image() {
+		this.addClass("image");
+		return this;
+	}
+	pointing() {
+		this.addClass("pointing");
+		return this;
+	}
+	belowPointing() {
+		this.addClass("pointing below");
+		return this;
 	}
 	rightPointing() {
 		this.addClass("right pointing");
@@ -432,6 +493,58 @@ export class Label extends SemanticUI {
 	}
 	leftPointing() {
 		this.addClass("left pointing");
+		return this;
+	}
+	leftCorner() {
+		this.addClass("left corner");
+		return this;
+	}
+	rightCorner() {
+		this.addClass("right corner");
+		return this;
+	}
+	tag() {
+		this.addClass("tag");
+		return this;
+	}
+	ribbon() {
+		this.addClass("ribbon");
+		return this;
+	}
+	rightRibbon() {
+		this.addClass("right ribbon");
+		return this;
+	}
+	topAttached() {
+		this.addClass("top attached");
+		return this;
+	}
+	bottomAttached() {
+		this.addClass("bottom attached");
+		return this;
+	}
+	topRightAttached() {
+		this.addClass("top right attached");
+		return this;
+	}
+	topLeftAttached() {
+		this.addClass("top left attached");
+		return this;
+	}
+	bottomRightAttached() {
+		this.addClass("bottom right attached");
+		return this;
+	}
+	bottomLeftAttached() {
+		this.addClass("bottom left attached");
+		return this;
+	}
+	horizontal() {
+		this.addClass("horizontal");
+		return this;
+	}
+	floating() {
+		this.addClass("floating");
 		return this;
 	}
 }
@@ -766,59 +879,6 @@ export class TableHeader extends SemanticUI {
 
 		if (optionalText !== undefined)
 			this.text(optionalText);
-	}
-}
-
-export class PropList extends Element {
-	constructor(eMap_properties, eTuple_deviceID) {
-		super("div");
-		this._deviceID = eTuple_deviceID;
-		this._table = new Table()
-		.add(new TableHead()
-		.add(new TableHeader("Property"))
-		.add(new TableHeader("Value"))
-		.add(new TableHeader("Type"))
-		)
-		.attachTo(this)
-		;
-
-		var eList_keyList = eMap_properties.keys();
-		eList_keyList.forEach(function (key) {
-			var eMap_property = eMap_properties.value(key);
-			var eAtom_valueType = eMap_property.valueAtom("value_type");
-			var eList_actions = eMap_property.valueAtom("actions");
-
-			/*
-			 * Create a valueless object of the right kind so we can use its
-			 * methods
-			 */
-			var cdt = CDT.cdt_decode(new Erlang.eTuple_([eAtom_valueType, undefined]));
-			cdt.updateDeviceID(eTuple_deviceID);
-			cdt.updateProperty(key);
-
-			var actionType;
-			if (eList_actions.indexOfAtom("display") >= 0)
-				actionType = cdt.display();
-			if (eList_actions.indexOfAtom("edit") >= 0)
-				actionType = cdt.edit(function (newValue) {
-					var [module, attribute] = key.value(); /* {'base', 'name'} */
-					WS.WS.updateProperty(eTuple_deviceID, module, attribute, newValue);
-				});
-
-			this._table
-			.add(new TableRow()
-			.add(new TableData(key.toString()))
-
-// .add(new TableData(eList_actions.toString()))
-			.add(new TableData().add(actionType))
-
-			.add(new TableData()
-			.add(new Label(eAtom_valueType.toString())
-			.leftPointing()
-			)
-			)
-			);
-		}, this);
 	}
 }
 
