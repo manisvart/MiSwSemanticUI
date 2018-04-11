@@ -6,7 +6,7 @@
 
 import * as MiSwDOM from "./../MiSwDOM/MiSwDOM.js";
 
-class SemanticUI extends Element {
+class SemanticUI extends MiSwDOM.Element {
 	constructor(type) {
 		super(type);
 	}
@@ -166,7 +166,7 @@ export class Button extends SemanticUI {
 		super("button");
 		this.addClass("ui button");
 		if (optionalText !== undefined)
-			this.text(optionalText);
+			this.addText(optionalText);
 
 		if(optionalCallback) {
 			this.dom().addEventListener("click", function () {
@@ -422,11 +422,11 @@ export class TextBox extends SemanticUI {
 	constructor(optionalText) {
 		super("div");
 		if (optionalText !== undefined)
-			this.text(optionalText);
+			this.addText(optionalText);
 	}
 	updateValue(value) {
 		this.removeChildren();
-		this.text(value);
+		this.addText(value);
 		return this;
 	}
 }
@@ -554,7 +554,7 @@ export class Message extends SemanticUI {
 		super("div");
 		this.addClass("ui message");
 		if (optionalText !== undefined)
-			this.text(optionalText);
+			this.addText(optionalText);
 	}
 	icon(iconType) {
 		this.addClass("icon");
@@ -572,7 +572,7 @@ export class Header extends SemanticUI {
 		super("div");
 		this.addClass("header");
 		if (optionalText !== undefined)
-			this.text(optionalText);
+			this.addText(optionalText);
 	}
 }
 
@@ -581,7 +581,7 @@ export class Content extends SemanticUI {
 		super("div");
 		this.addClass("content");
 		if (optionalText !== undefined)
-			this.text(optionalText);
+			this.addText(optionalText);
 	}
 }
 
@@ -595,7 +595,7 @@ export class Sidebar extends SemanticUI {
 
 		this.addClass("ui sidebar");
 		if (optionalText !== undefined)
-			this.text(optionalText);
+			this.addText(optionalText);
 	}
 	pusher(element) {
 		element.addClass("pusher");
@@ -859,7 +859,7 @@ export class TableData extends SemanticUI {
 		super("td");
 
 		if (optionalText !== undefined)
-			this.text(optionalText);
+			this.addText(optionalText);
 	}
 }
 
@@ -878,7 +878,7 @@ export class TableHeader extends SemanticUI {
 		super("th");
 
 		if (optionalText !== undefined)
-			this.text(optionalText);
+			this.addText(optionalText);
 	}
 }
 
