@@ -212,9 +212,16 @@ export class IconGroup extends SemanticUI {
 	
 }
 export class Icon extends SemanticUI {
-	constructor(type) {
+	constructor(type, optionalCallback) {
 		super("i");
 		this.addClass(type).addClass("icon");
+
+		if(optionalCallback) {
+			this.dom().addEventListener("click", function () {
+				optionalCallback();
+			});
+		}
+
 	}
 	fitted() {
 		this.addClass("fitted");
@@ -345,15 +352,23 @@ export class Input extends SemanticUI {
 
 export class TextInput extends Input {
 	constructor(placeholder,optionalCallback) {
-		super("text", placeholder,optionalCallback);
+		super("text", placeholder, optionalCallback);
 	}
 }
 
 export class NumericInput extends Input {
 	constructor(placeholder,optionalCallback) {
-		super("number", placeholder,optionalCallback);
+		super("number", placeholder, optionalCallback);
 	}	
 }
+
+export class Checkbox extends Input {
+	constructor(optionalCallback) {
+		super("checkbox", undefined, optionalCallback);
+		this.addClass("checkbox");
+	}		
+}
+
 
 export class NumericField extends SemanticUI {
 	constructor(optionalText, units, unitChangeFun) {
@@ -641,6 +656,91 @@ export class Sidebar extends SemanticUI {
 		return this;
 	}
 }
+
+/*
+ * Dropdown https://semantic-ui.com/modules/dropdown.html
+ */
+
+
+export class DropdownBase extends SemanticUI {
+	constructor(optionalCallback) {
+		super("div");
+		
+		this._value = "";
+		this._items = []; /* The items in the dropdown */
+		this
+			.addClass("ui dropdown")
+			.add(this._menu = new MiSwDOM.Element("div").addClass("menu"))
+		;
+		
+		if(optionalCallback) {
+			var _this = this;
+			$(this.dom()).dropdown({
+				onChange: function (value, text, $selectedItem) {
+					_this._value = value;
+					optionalCallback(value, text, $selectedItem);
+				}
+			});	
+		}
+	}
+	readValue() {
+		return this._value;
+	}
+	addHeader(headerText, initialState = "") {
+		var header;
+		this._menu.add(header = new MiSwDOM.Element("div").addClass("header").addClass(initialState).addText(headerText));
+		this._items.push(header);
+		return this;
+	}
+	addDivider(initialState = "") {
+		var divider;
+		this._menu.add(divider = new MiSwDOM.Element("div").addClass("ui divider").addClass(initialState));
+		this._items.push(divider);
+		return this;
+	}
+	addItem(menuText, dataValue, initialState = "") {
+		var item;
+		this._menu.add(item = new MiSwDOM.Element("div").addClass("item").dataset({value: dataValue}).addClass(initialState).addText(menuText));
+		this._items.push(item);
+		return this;
+	}
+	addItems(objectList) {
+		objectList.forEach(function(obj) {
+			this.addItem(obj["menutext"], obj["datavalue"], obj["initialstate"])
+		})
+	}
+	disableItems(itemList) {
+		itemList.forEach(function (item) {
+			this._items[item].addClass("disabled");
+		}, this);
+		return this;
+	}
+	enableItems(itemList) {
+		itemList.forEach(function (item) {
+			this._items[item].removeClass("disabled");
+		}, this);
+		return this;
+	}
+	topLeftPointing() {
+		this.addClass("top left pointing");
+		return this;
+	}
+}
+
+
+export class DropdownIcon extends DropdownBase {
+	constructor(icon, optionalCallback) {
+		super(optionalCallback);
+		this
+			.addClass("icon")
+			.topLeftPointing()
+			.insertChild(new Icon("icon"), this._menu)
+		;
+	}
+}
+
+
+
 
 export class DropDown extends SemanticUI {
 	constructor(icon, values, fun, text) {
