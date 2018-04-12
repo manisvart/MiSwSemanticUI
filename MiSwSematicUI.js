@@ -731,7 +731,7 @@ export class DropdownIcon extends DropdownBase {
 	constructor(icon, optionalCallback) {
 		super(optionalCallback);
 		this
-			.addClass("icon")
+			.addClass(icon)
 			.topLeftPointing()
 			.insertChild(new Icon("icon"), this._menu)
 		;
