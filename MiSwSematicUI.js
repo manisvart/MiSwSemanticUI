@@ -707,7 +707,7 @@ export class DropdownBase extends SemanticUI {
 	addItems(objectList) {
 		objectList.forEach(function(obj) {
 			this.addItem(obj["menutext"], obj["datavalue"], obj["initialstate"])
-		})
+		}, this);
 		return this;
 	}
 	disableItems(itemList) {
