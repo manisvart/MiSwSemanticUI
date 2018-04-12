@@ -10,11 +10,6 @@ class SemanticUI extends MiSwDOM.Element {
 	constructor(type) {
 		super(type);
 	}
-	/* Add a text element */
-	addText(text) {
-		this.add(new MiSwDOM.Element("text", text));
-		return this;
-	}
 	top() {
 		this.addClass("top");
 		return this;
