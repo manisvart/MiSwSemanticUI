@@ -728,6 +728,9 @@ export class DropdownBase extends SemanticUI {
 }
 
 
+/*
+ * A dropdown attached to an icon
+ */
 export class DropdownIcon extends DropdownBase {
 	constructor(icon, optionalCallback) {
 		super(optionalCallback);
