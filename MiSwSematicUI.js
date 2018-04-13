@@ -345,12 +345,18 @@ export class Input extends SemanticUI {
 	}
 }
 
+/*
+ * Text input
+ */
 export class TextInput extends Input {
 	constructor(placeholder,optionalCallback) {
 		super("text", placeholder, optionalCallback);
 	}
 }
 
+/*
+ * Numeric input
+ */
 export class NumericInput extends Input {
 	constructor(placeholder,optionalCallback) {
 		super("number", placeholder, optionalCallback);
