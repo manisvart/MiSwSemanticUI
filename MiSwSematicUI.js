@@ -297,8 +297,8 @@ export class Input extends SemanticUI {
 				optionalCallback(this.readValue());
 			}
 			
-	        this._input.addEventListener("input", valueChanged);
-		    this._input.addEventListener("change", valueChanged);
+			this._input.addEventListener("input", valueChanged);
+			this._input.addEventListener("change", valueChanged);
 		}
 	}
 	focus() {
@@ -315,6 +315,10 @@ export class Input extends SemanticUI {
 	}
 	leftIcon(icon) {
 		this.addClas("left icon").insertChild(icon, this._input);
+		return this;
+	}
+	label(element) {
+		this.insertChild(element, this._input);
 		return this;
 	}
 	leftLabel(label) {
