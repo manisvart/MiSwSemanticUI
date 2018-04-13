@@ -731,13 +731,25 @@ export class DropdownIcon extends DropdownBase {
 	constructor(icon, optionalCallback) {
 		super(optionalCallback);
 		this
-			.addClass(icon)
+			.addClass("icon")
 			.topLeftPointing()
-			.insertChild(new Icon("icon"), this._menu)
+			.insertChild(new Icon(icon), this._menu)
 		;
 	}
 }
 
+/*
+ * A "standard" dropdown
+ */
+export class DropdownStandard extends DropdownBase {
+	constructor(text, optionalCallback) {
+		super(optionalCallback);
+		this
+			.insertChild(new MiSwDOM.Element("div", text).addClass("text").addText(text), this._menu)
+			.insertChild(new Icon("dropdown icon"), this._menu)
+		;
+	}
+}
 
 
 
