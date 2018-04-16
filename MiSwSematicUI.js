@@ -691,6 +691,10 @@ export class DropdownBase extends SemanticUI {
 	readValue() {
 		return this._value;
 	}
+	updateValue(value) {
+		this.value_ = value;
+		$(this.dom()).dropdown("set selected", value);
+	}
 	addHeader(headerText, initialState = "") {
 		var header;
 		this._menu.add(header = new MiSwDOM.Element("div").addClass("header").addClass(initialState).addText(headerText));
