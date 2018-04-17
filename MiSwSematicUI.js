@@ -293,7 +293,7 @@ export class Input extends SemanticUI {
 				);
 		
 		if(optionalCallback) {
-			_this = this;
+			let _this = this;
 			function valueChanged() {
 				optionalCallback(_this.readValue());
 			}
