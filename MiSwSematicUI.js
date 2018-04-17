@@ -293,8 +293,9 @@ export class Input extends SemanticUI {
 				);
 		
 		if(optionalCallback) {
+			_this = this;
 			function valueChanged() {
-				optionalCallback(this.readValue());
+				optionalCallback(_this.readValue());
 			}
 			
 			this._input.dom().addEventListener("input", valueChanged);
