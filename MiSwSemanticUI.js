@@ -1,7 +1,8 @@
 /*
  * A wrapper for the Semantic UI library
  * https://semantic-ui.com/
- * 
+ *
+ * It depends on the "MiS wrapper for the DOM"
  */
 
 import * as MiSwDOM from "./../MiSwDOM/MiSwDOM.js";
