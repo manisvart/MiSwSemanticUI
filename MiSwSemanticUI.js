@@ -442,15 +442,26 @@ export class NumericField extends SemanticUI {
 }
 
 export class TextBox extends SemanticUI {
-	constructor(optionalText) {
-		super("div");
+
+	constructor(optionalText, options = {}) {
+		if (options["usespan"] === undefined) {
+			super("div");
+		} else {
+			super("span");
+		}
+
 		if (optionalText !== undefined)
 			this.addText(optionalText);
 	}
+
 	updateValue(value) {
 		this.removeChildren();
 		this.addText(value);
 		return this;
+	}
+
+	readValue() {
+		return this._dom.firstChild;
 	}
 }
 
